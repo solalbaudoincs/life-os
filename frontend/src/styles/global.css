@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600&family=Silkscreen:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Surface elevation — same hue (warm cream), only lightness shifts */
+    --background: 40 25% 97.5%;
+    --foreground: 30 12% 14%;
+
+    --card: 40 22% 96%;
+    --card-foreground: 30 12% 14%;
+
+    --popover: 40 30% 99%;
+    --popover-foreground: 30 12% 14%;
+
+    /* Amber/honey accent — lamplight on a desk */
+    --primary: 30 72% 46%;
+    --primary-foreground: 40 30% 99%;
+
+    /* Surfaces — same hue family, tiny lightness shifts */
+    --secondary: 38 18% 94.5%;
+    --secondary-foreground: 30 8% 30%;
+
+    --muted: 38 16% 93%;
+    --muted-foreground: 25 8% 42%;
+
+    --accent: 38 18% 94.5%;
+    --accent-foreground: 30 12% 14%;
+
+    --destructive: 0 65% 48%;
+    --destructive-foreground: 40 30% 99%;
+
+    /* Borders — low opacity, disappear when you're not looking */
+    --border: 30 10% 88%;
+    --input: 35 14% 91%;
+    --ring: 30 72% 46%;
+
+    --radius: 0.5rem;
+
+    --chart-1: 30 72% 46%;
+    --chart-2: 145 50% 40%;
+    --chart-3: 215 60% 48%;
+    --chart-4: 270 50% 52%;
+    --chart-5: 0 65% 48%;
+
+    /* Sidebar — same background as canvas */
+    --sidebar: 40 25% 97.5%;
+    --sidebar-foreground: 30 12% 14%;
+    --sidebar-border: 30 10% 88%;
+    --sidebar-accent: 38 18% 94.5%;
+    --sidebar-accent-foreground: 30 72% 38%;
+
+    /* Semantic */
+    --success: 145 50% 40%;
+    --warning: 35 80% 48%;
+    --info: 215 60% 48%;
+
+    /* Font */
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+    --font-pixel: "Silkscreen", monospace;
+
+    /* Per-module accent hues */
+    --module-0: 30 72% 46%;
+    --module-1: 14 65% 48%;
+    --module-2: 152 38% 42%;
+    --module-3: 215 42% 50%;
+    --module-4: 340 42% 52%;
+    --module-5: 50 55% 44%;
+    --module-6: 180 32% 42%;
+    --module-7: 270 32% 50%;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    letter-spacing: -0.011em;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: hsl(30 72% 46% / 0.12);
+  }
+
+  /* Invisible scrollbars that appear on hover */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--foreground) / 0.06);
+    border-radius: 100px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--foreground) / 0.12);
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.18);
+  }
+
+  input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background: transparent;
+    border: none;
+    outline: none;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  a {
+    color: hsl(var(--primary));
+    text-decoration: none;
+  }
+}
+
+/* Pixel grid background texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(
+    hsl(var(--foreground) / 0.015) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+}
+
+/* Terminal-style command palette */
+[cmdk-dialog] [cmdk-input] {
+  font-family: var(--font-mono) !important;
+  font-size: 13px !important;
+  letter-spacing: 0;
+}
+
+[cmdk-dialog] [cmdk-group-heading] {
+  font-family: var(--font-mono) !important;
+  font-size: 10px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.5;
+}
+
+[cmdk-dialog] [cmdk-item] {
+  font-family: var(--font-mono) !important;
+  font-size: 12.5px !important;
+  border-radius: 0 !important;
+}
+
+[cmdk-dialog] [cmdk-item][data-selected="true"] {
+  background: repeating-linear-gradient(
+    0deg,
+    hsl(var(--primary) / 0.05) 0px,
+    hsl(var(--primary) / 0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  ) !important;
+  color: hsl(var(--primary)) !important;
+}
