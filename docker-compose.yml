@@ -8,6 +8,7 @@ services:
       POSTGRES_DB: lifeos
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./docker/init-pgvector.sql:/docker-entrypoint-initdb.d/init-pgvector.sql
     ports:
       - "5432:5432"
     healthcheck:
@@ -20,8 +21,8 @@ services:
     build: ./backend
     restart: unless-stopped
     depends_on:
-      db:
-        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     env_file: .env
     environment:
       DATABASE_URL: postgresql+asyncpg://lifeos:lifeos@db:5432/lifeos
