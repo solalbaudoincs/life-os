@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import { ArrowUp, Loader2, Plus, MessageSquare, ArrowLeft, Search, RefreshCw, Mic, Square } from "lucide-react";
+import { ArrowUp, Loader2, Plus, MessageSquare, ArrowLeft, Search, RefreshCw, Mic, Square, HelpCircle } from "lucide-react";
 import { useChatStore } from "../../stores/chatStore";
 import { useModuleStore } from "../../stores/moduleStore";
 import { useNoteStore } from "../../stores/noteStore";
@@ -12,6 +12,7 @@ import { ChatToolCall } from "../chat/ChatToolCall";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { PixelGrid } from "@/components/ui/pixel-grid";
+import { startTour } from "../../hooks/useTour";
 
 const QUICK_ACTIONS = [
   "Summarize recent activity",
@@ -451,14 +452,23 @@ export function FullScreenChatView() {
                     <RefreshCw size={11} className={briefingLoading ? "animate-spin" : ""} />
                   </button>
                 </div>
-                <button
-                  onClick={() => setCommandPaletteOpen(true, "chats")}
-                  className="flex items-center gap-1.5 text-[12px] text-muted-foreground hover:text-foreground px-2.5 py-1 rounded-lg border border-[hsl(var(--foreground)/0.08)] hover:border-[hsl(var(--foreground)/0.15)] bg-transparent cursor-pointer font-mono transition-all"
-                >
-                  <MessageSquare size={12} />
-                  Recent chats
-                  <kbd className="ml-1 text-[10px] text-muted-foreground/40 bg-[hsl(var(--foreground)/0.04)] rounded px-1.5 py-0.5 leading-none">⌘K</kbd>
-                </button>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={startTour}
+                    className="flex items-center gap-1.5 text-[12px] text-muted-foreground/50 hover:text-foreground px-2.5 py-1 rounded-lg border border-[hsl(var(--foreground)/0.08)] hover:border-[hsl(var(--foreground)/0.15)] bg-transparent cursor-pointer font-mono transition-all"
+                  >
+                    <HelpCircle size={12} />
+                    Tour
+                  </button>
+                  <button
+                    onClick={() => setCommandPaletteOpen(true, "chats")}
+                    className="flex items-center gap-1.5 text-[12px] text-muted-foreground hover:text-foreground px-2.5 py-1 rounded-lg border border-[hsl(var(--foreground)/0.08)] hover:border-[hsl(var(--foreground)/0.15)] bg-transparent cursor-pointer font-mono transition-all"
+                  >
+                    <MessageSquare size={12} />
+                    Recent chats
+                    <kbd className="ml-1 text-[10px] text-muted-foreground/40 bg-[hsl(var(--foreground)/0.04)] rounded px-1.5 py-0.5 leading-none">⌘K</kbd>
+                  </button>
+                </div>
               </div>
             </div>
 
