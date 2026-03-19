@@ -73,7 +73,7 @@ export function MainContent() {
   return (
     <main id="main-pane" className="flex-1 flex flex-col h-screen overflow-hidden min-w-0 relative z-[1]">
       {/* Top bar */}
-      <header className="flex items-center gap-3 px-5 h-12 shrink-0 border-b border-dashed border-[hsl(var(--foreground)/0.07)]">
+      <header data-tour="header" className="flex items-center gap-3 px-5 h-12 shrink-0 border-b border-dashed border-[hsl(var(--foreground)/0.07)]">
         {activeNoteId && activeMod ? (
           <button
             onClick={() => setActiveNote(null)}
@@ -108,7 +108,7 @@ export function MainContent() {
 
             {/* View switcher — underline tabs in mono */}
             {activeMod && views.length > 1 && (
-              <div className="flex gap-0 ml-2">
+              <div data-tour="view-tabs" className="flex gap-0 ml-2">
                 {views.map((v) => (
                   <button
                     key={v.id}
@@ -152,6 +152,7 @@ export function MainContent() {
 
         {/* Agent Activity — pixel square dot */}
         <button
+          data-tour="activity"
           onClick={toggleActivity}
           className={cn(
             "relative p-1.5 rounded-md transition-colors",
@@ -172,7 +173,7 @@ export function MainContent() {
       )}
 
       {/* Content area */}
-      <div className="flex-1 overflow-auto">
+      <div data-tour="content" className="flex-1 overflow-auto">
         {showMcpSettings ? (
           <McpServersView />
         ) : showSuggestionsView ? (

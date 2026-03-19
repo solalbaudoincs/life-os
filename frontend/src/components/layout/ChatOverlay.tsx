@@ -265,7 +265,7 @@ export function ChatOverlay() {
       )}
 
       {/* Bottom bar */}
-      <div className="fixed bottom-4 -translate-x-1/2 z-[101] w-[480px] max-w-[calc(100vw-160px)]" style={{ left: `calc(50% + ${sidebarOffset}px)` }}>
+      <div data-tour="chat-bar" className="fixed bottom-4 -translate-x-1/2 z-[101] w-[480px] max-w-[calc(100vw-160px)]" style={{ left: `calc(50% + ${sidebarOffset}px)` }}>
         <div
           className={cn(
             "flex items-center gap-2 bg-[hsl(var(--popover))] border border-[hsl(var(--foreground)/0.06)] px-3.5 py-1.5",

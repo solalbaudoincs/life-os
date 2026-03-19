@@ -119,6 +119,7 @@ export function Sidebar() {
 
   return (
     <aside
+      data-tour="sidebar"
       className={cn(
         "flex flex-col h-screen overflow-hidden bg-background transition-all duration-200 z-10",
         "border-r border-dashed border-[hsl(var(--foreground)/0.08)]",
@@ -161,7 +162,7 @@ export function Sidebar() {
       </div>
 
       {/* Module list */}
-      <nav className="flex-1 overflow-auto py-0.5 px-2">
+      <nav data-tour="modules" className="flex-1 overflow-auto py-0.5 px-2">
         {modules.map((mod, idx) => {
           const isActive = activeModuleId === mod.id;
           const isDragging = dragIdx === idx;
@@ -223,6 +224,7 @@ export function Sidebar() {
 
         {/* + New module */}
         <button
+          data-tour="new-module"
           onClick={handleNewModule}
           title={collapsed ? "New module" : undefined}
           className={cn(
@@ -236,7 +238,7 @@ export function Sidebar() {
       </nav>
 
       {/* Agents & Suggestions buttons */}
-      <div className="px-2 pt-1 flex flex-col gap-0.5">
+      <div data-tour="sidebar-actions" className="px-2 pt-1 flex flex-col gap-0.5">
         <button
           onClick={handleAgentsClick}
           title={collapsed ? "Agents" : undefined}
