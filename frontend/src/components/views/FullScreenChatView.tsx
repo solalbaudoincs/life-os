@@ -266,13 +266,14 @@ export function FullScreenChatView() {
     };
   }, [voiceState]);
 
-  const handleSend = async (text?: string) => {
+  const handleSend = (text?: string) => {
     const msg = (text ?? input).trim();
     if (!msg || loading) return;
     setInput("");
-    await send(msg);
-    fetchModules();
-    if (activeModuleId) fetchForModule(activeModuleId);
+    send(msg).then(() => {
+      fetchModules();
+      if (activeModuleId) fetchForModule(activeModuleId);
+    });
   };
 
   const handleConfirm = async () => {

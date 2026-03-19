@@ -88,14 +88,15 @@ export function ChatOverlay() {
     }
   }, [messages, loading, streamingContent, streamingToolCalls]);
 
-  const handleSend = async () => {
+  const handleSend = () => {
     const text = input.trim();
     if (!text || loading) return;
     setInput("");
     setOpen(true);
-    await send(text);
-    fetchModules();
-    if (activeModuleId) fetchForModule(activeModuleId);
+    send(text).then(() => {
+      fetchModules();
+      if (activeModuleId) fetchForModule(activeModuleId);
+    });
   };
 
   const handleConfirm = async () => {

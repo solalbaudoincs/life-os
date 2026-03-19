@@ -59,6 +59,7 @@ export async function sendMessageStream(
   history: { role: string; content: string }[],
   conversationId: string | null | undefined,
   onEvent: (event: SSEEvent) => void,
+  signal?: AbortSignal,
 ): Promise<void> {
   const res = await fetch("/api/chat/stream", {
     method: "POST",
@@ -68,6 +69,7 @@ export async function sendMessageStream(
       history,
       conversation_id: conversationId ?? null,
     }),
+    signal,
   });
 
   if (!res.ok) {

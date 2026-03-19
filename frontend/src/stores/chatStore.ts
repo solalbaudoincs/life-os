@@ -71,6 +71,16 @@ const INITIAL_STREAMING_STATE = {
   suggestedFollowups: [] as string[],
 };
 
+// Tracks the active stream so it can be cancelled on navigation
+let _activeAbort: AbortController | null = null;
+
+function _cancelActiveStream() {
+  if (_activeAbort) {
+    _activeAbort.abort();
+    _activeAbort = null;
+  }
+}
+
 function handleSSEEvent(
   event: SSEEvent,
   set: (partial: Partial<ChatState> | ((s: ChatState) => Partial<ChatState>)) => void,
@@ -155,12 +165,17 @@ export const useChatStore = create<ChatState>((set, get) => ({
   ...INITIAL_STREAMING_STATE,
 
   send: async (text) => {
+    _cancelActiveStream();
+
     const userMsg: ChatMessage = { role: "user", content: text };
     set((s) => ({
       messages: [...s.messages, userMsg],
       loading: true,
       ...INITIAL_STREAMING_STATE,
     }));
+
+    const abort = new AbortController();
+    _activeAbort = abort;
 
     try {
       const history = get().messages.map((m) => ({
@@ -172,9 +187,14 @@ export const useChatStore = create<ChatState>((set, get) => ({
         text,
         history.slice(0, -1), // exclude the just-added user message
         get().conversationId,
-        (event) => handleSSEEvent(event, set, get),
+        (event) => {
+          if (abort.signal.aborted) return;
+          handleSSEEvent(event, set, get);
+        },
+        abort.signal,
       );
     } catch (e) {
+      if (abort.signal.aborted) return; // cancelled intentionally, don't show error
       const errMsg: ChatMessage = {
         role: "assistant",
         content: `Error: ${e instanceof Error ? e.message : "Something went wrong"}`,
@@ -184,6 +204,8 @@ export const useChatStore = create<ChatState>((set, get) => ({
         loading: false,
         ...INITIAL_STREAMING_STATE,
       }));
+    } finally {
+      if (_activeAbort === abort) _activeAbort = null;
     }
   },
 
@@ -228,17 +250,23 @@ export const useChatStore = create<ChatState>((set, get) => ({
     }
   },
 
-  clear: () => set({
-    messages: [], conversationId: null,
-    pendingConfirmation: null, pendingTool: null, messagesSnapshot: null,
-    ...INITIAL_STREAMING_STATE,
-  }),
+  clear: () => {
+    _cancelActiveStream();
+    set({
+      messages: [], conversationId: null, loading: false,
+      pendingConfirmation: null, pendingTool: null, messagesSnapshot: null,
+      ...INITIAL_STREAMING_STATE,
+    });
+  },
 
-  startNewConversation: () => set({
-    messages: [], conversationId: null,
-    pendingConfirmation: null, pendingTool: null, messagesSnapshot: null,
-    ...INITIAL_STREAMING_STATE,
-  }),
+  startNewConversation: () => {
+    _cancelActiveStream();
+    set({
+      messages: [], conversationId: null, loading: false,
+      pendingConfirmation: null, pendingTool: null, messagesSnapshot: null,
+      ...INITIAL_STREAMING_STATE,
+    });
+  },
 
   fetchConversations: async () => {
     try {
@@ -250,6 +278,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
   },
 
   loadConversation: async (id: string) => {
+    _cancelActiveStream();
     try {
       const detail = await convApi.getConversation(id);
       const messages: ChatMessage[] = detail.messages.map((m) => ({
@@ -257,7 +286,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
         content: m.content,
         tool_calls: m.tool_calls,
       }));
-      set({ messages, conversationId: id });
+      set({ messages, conversationId: id, loading: false, ...INITIAL_STREAMING_STATE });
     } catch (e) {
       console.error("Failed to load conversation", e);
     }
