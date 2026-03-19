@@ -359,7 +359,7 @@ export function FullScreenChatView() {
               </div>
 
               {/* Search bar */}
-              <div className="relative max-w-md mx-auto mb-5">
+              <div data-tour="home-search" className="relative max-w-md mx-auto mb-5">
                 <div className="flex items-center gap-2 bg-[hsl(var(--foreground)/0.025)] rounded-lg px-3.5 py-2 transition-all focus-within:bg-[hsl(var(--foreground)/0.04)] focus-within:ring-1 focus-within:ring-[hsl(var(--foreground)/0.06)]">
                   <Search size={14} className="text-muted-foreground/40 shrink-0" />
                   <input
@@ -397,7 +397,7 @@ export function FullScreenChatView() {
 
               {/* Modules — horizontal scroll with blur fade */}
               {modules.length > 0 && (
-                <div className="relative mb-4">
+                <div data-tour="module-cards" className="relative mb-4">
                   <div
                     ref={modulesScroll.ref}
                     className="flex gap-2 overflow-x-auto overflow-y-hidden"
@@ -473,7 +473,7 @@ export function FullScreenChatView() {
             </div>
 
             {/* Briefing grid — each section is individually scrollable, 2 cols, 2 rows */}
-            <div className="flex-1 min-h-0 max-w-[960px] w-full mx-auto px-7 pb-2">
+            <div data-tour="briefing" className="flex-1 min-h-0 max-w-[960px] w-full mx-auto px-7 pb-2">
               {briefingSections.length > 0 ? (
                 (() => {
                   const dotColors: Record<string, string> = {
@@ -682,6 +682,7 @@ export function FullScreenChatView() {
         {/* Quick actions — only on empty home, horizontal scroll */}
         {isEmpty && (
           <div
+            data-tour="quick-actions"
             className="relative w-full max-w-[720px] mb-3"
             onMouseEnter={actionsScroll.onMouseEnter}
             onMouseLeave={actionsScroll.onMouseLeave}
@@ -707,7 +708,7 @@ export function FullScreenChatView() {
             <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-background to-transparent" />
           </div>
         )}
-        <div className={cn(
+        <div data-tour="input-bar" className={cn(
           "w-full max-w-[720px] bg-muted/90 backdrop-blur-sm border rounded-2xl px-4 pt-3.5 pb-3 flex flex-col gap-2.5 shadow-lg",
           voiceState === "recording" ? "border-red-500/20" : "border-border"
         )}>

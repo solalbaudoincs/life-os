@@ -367,9 +367,9 @@ export function ModuleDashboard({ module }: { module: Module }) {
 
   return (
     <div className="px-10 py-8 h-full overflow-auto">
-      <div className="grid grid-cols-3 gap-10 max-w-[1200px] mx-auto">
+      <div data-tour="dashboard-grid" className="grid grid-cols-3 gap-10 max-w-[1200px] mx-auto">
         {/* Column 1: Pipeline + Recent Notes */}
-        <div className="space-y-8">
+        <div data-tour="dashboard-col1" className="space-y-8">
           {hasLifecycle && (
             <PipelineSummary
               module={module}
@@ -387,7 +387,7 @@ export function ModuleDashboard({ module }: { module: Module }) {
         </div>
 
         {/* Column 2: Suggestions + Agents */}
-        <div className="space-y-8">
+        <div data-tour="dashboard-col2" className="space-y-8">
           <SuggestionsSection
             suggestions={moduleSuggestions}
             moduleColor={moduleColor}
@@ -405,7 +405,7 @@ export function ModuleDashboard({ module }: { module: Module }) {
         </div>
 
         {/* Column 3: Calendar + Today's Notes */}
-        <div className="space-y-8">
+        <div data-tour="dashboard-col3" className="space-y-8">
           <CalendarPreview
             notes={notes}
             dateFieldName={dateField?.name ?? null}

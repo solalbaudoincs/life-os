@@ -90,7 +90,7 @@ export function SearchBar() {
 
   return (
     <div ref={containerRef} className="relative">
-      <div className="flex items-center gap-1.5 bg-[hsl(var(--foreground)/0.025)] rounded-md px-2.5 py-[5px] w-48 transition-all focus-within:bg-[hsl(var(--foreground)/0.04)]">
+      <div data-tour="header-search" className="flex items-center gap-1.5 bg-[hsl(var(--foreground)/0.025)] rounded-md px-2.5 py-[5px] w-48 transition-all focus-within:bg-[hsl(var(--foreground)/0.04)]">
         <Search size={13} className="text-muted-foreground/40 shrink-0" />
         <input
           ref={inputRef}
